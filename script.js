@@ -4,13 +4,14 @@ function initTabNav() {
     const tabContent = document.querySelectorAll('.js-tabcontent section');
 
     if(tabMenu.length && tabContent.length) {
-        tabContent[0].classList.add('ativo');
+        const ativoClass = 'ativo';
+        tabContent[0].classList.add(ativoClass);
 
         function activeTab(index) {
             tabContent.forEach((section) => {
-                section.classList.remove('ativo');
+                section.classList.remove(ativoClass);
             });
-            tabContent[index].classList.add('ativo');
+            tabContent[index].classList.add(ativoClass);
         };
 
         tabMenu.forEach((itemMenu, index) => {
@@ -27,15 +28,15 @@ initTabNav();
 // Accordion List
 function initAccordion() {
     const accordionList = document.querySelectorAll('.js-accordion dt');
-    const ativo = 'ativo';
-    accordionList[0].classList.add(ativo);
-    accordionList[0].nextElementSibling.classList.add(ativo);
 
     if (accordionList.length) {
+        const ativoClass = 'ativo';
+        accordionList[0].classList.add(ativoClass);
+        accordionList[0].nextElementSibling.classList.add(ativoClass);
+
         function activeAccordion() {
-            console.log(this);
-            this.classList.toggle(ativo);
-            this.nextElementSibling.classList.toggle(ativo);
+            this.classList.toggle(ativoClass);
+            this.nextElementSibling.classList.toggle(ativoClass);
         };
 
         accordionList.forEach((item) =>{
@@ -43,8 +44,31 @@ function initAccordion() {
         });
     };
 }
-    
 
 initAccordion();
 
+function initSmoothScroll() {
+    const linksInternos = document.querySelectorAll('.js-menu a[href^="#"]');
 
+    function scrollToSection(event) {
+        event.preventDefault();
+        const href = event.currentTarget.getAttribute('href');
+        const section = document.querySelector(href); //seleciona section com id referente ao href
+        section.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
+        //Forma alternativa
+        // const topo = section.offsetTop;
+        // window.scrollTo({
+        //     top: topo,
+        //     behavior: 'smooth'
+        // });
+    }
+
+    linksInternos.forEach((link) =>{
+        link.addEventListener('click', scrollToSection);
+    });
+};
+
+initSmoothScroll();
